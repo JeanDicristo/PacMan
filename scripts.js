@@ -1,12 +1,14 @@
 const gameDiv = document.getElementById('game');
 const sizeCaseWidth = 28;
+const scoreHtml = document.getElementById('score');
+let score = 0;
 
 /*
 * OK FOR  Créer  le plateau
-* Créer notre pacman
-* Gérer les déplacements (sans contrainte)
-* Contraintes de déplacement (pas dans les murs)
-* Pièces a manger
+* OK FOR  Créer notre pacman
+* OK FOR  Gérer les déplacements (sans contrainte)
+* OK FOR  Contraintes de déplacement (pas dans les murs)
+* OK FOR  Pièces a manger
 * Gérer les fantômes
 * ...
 */
@@ -50,11 +52,12 @@ const layout = [
 creerPlateau();
 
 document.addEventListener("keyup", (event) => {
-   DeplacerPacman(event.key);
+    DeplacerPacman(event.key);
 });
 
 function creerPlateau() {
     let cptCase = 0;
+    scoreHtml.innerHTML = score;
     layout.forEach(caseLayout => {
         let casePlateau = document.createElement("div");
         //  casePlateau.innerHTML = caseLayout;    NUMERO PLATEAU
@@ -93,20 +96,20 @@ function DeplacerPacman(direction) {
     let caseDestination = null;
     switch (direction) {
         case "ArrowUp":
-                // Déplacer la case contenant pacman de 1 vers le haut
-                caseDestination = getCaseByIndex(parseInt(pacManCase) - sizeCaseWidth);
-        break;
+            // Déplacer la case contenant pacman de 1 vers le haut
+            caseDestination = getCaseByIndex(parseInt(pacManCase) - sizeCaseWidth);
+            break;
         case "ArrowRight":
-                // Déplacer la case contenant pacman de 1 vers la droite
-                caseDestination = getCaseByIndex(parseInt(pacManCase) + 1);
-        break;
+            // Déplacer la case contenant pacman de 1 vers la droite
+            caseDestination = getCaseByIndex(parseInt(pacManCase) + 1);
+            break;
         case "ArrowLeft":
-                // Déplacer la case contenant pacman de 1 vers la  gauche
-                caseDestination = getCaseByIndex(parseInt(pacManCase) - 1);
-        break;
+            // Déplacer la case contenant pacman de 1 vers la  gauche
+            caseDestination = getCaseByIndex(parseInt(pacManCase) - 1);
+            break;
         case "ArrowDown":
-                // Déplacer la case contenant pacman de 1 vers le bas
-                caseDestination = getCaseByIndex(parseInt(pacManCase) + sizeCaseWidth);
+            // Déplacer la case contenant pacman de 1 vers le bas
+            caseDestination = getCaseByIndex(parseInt(pacManCase) + sizeCaseWidth);
             break;
         default:
             break;
@@ -121,12 +124,24 @@ function DeplacerPacman(direction) {
 
 //return faux si je peux pas aller la ou je veux
 //return vrai si je peux
-function ckeckDirection(caseDestination)  
-{
+function ckeckDirection(caseDestination) {
     if (caseDestination.classList.contains("mur")) {
-     return false;   
+        return false;
     }
-    else{
+    else {
+        if (caseDestination.classList.contains("point")) {
+            incrementScore();
+            caseDestination.classList.remove("point");
+        }
         return true;
+    }
+}
+
+function incrementScore() {
+    score++;
+    scoreHtml.innerHTML = score;
+    let allpoints = layout.filter(l=> l==0);
+    if (score == allpoints.length) {
+        alert("C'est gagné");
     }
 }

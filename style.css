@@ -1,5 +1,6 @@
 body {
     background-color: #1e1e1e;
+    color: whitesmoke;
 }
 #game {
     /* widthCase * 28 */
@@ -10,6 +11,9 @@ body {
     flex-wrap: wrap;
     background-color: black;
     margin: auto;
+}
+#score {
+    text-align: center;
 }
 #game div {
     width: 20px;
