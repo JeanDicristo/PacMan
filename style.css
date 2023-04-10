@@ -31,6 +31,12 @@ body {
 #game div.fantome-area{
     background-color: #EEACD2;
 }
+#game div.fantome{
+    background-color: #e30808;
+    border-radius: 30%;
+    border: 3px solid black;
+    box-sizing: border-box;
+}
 #game div.point-puissance{
     background-color: #F8AD90;
     border-radius: 50%;
