@@ -1,7 +1,8 @@
 const gameDiv = document.getElementById('game');
+const sizeCaseWidth = 28;
 
 /*
-* Créer  le plateau
+* OK FOR  Créer  le plateau
 * Créer notre pacman
 * Gérer les déplacements (sans contrainte)
 * Contraintes de déplacement (pas dans les murs)
@@ -48,10 +49,16 @@ const layout = [
 // 4 - empty
 creerPlateau();
 
+document.addEventListener("keyup", (event) => {
+   DeplacerPacman(event.key);
+});
+
 function creerPlateau() {
+    let cptCase = 0;
     layout.forEach(caseLayout => {
         let casePlateau = document.createElement("div");
         //  casePlateau.innerHTML = caseLayout;    NUMERO PLATEAU
+        casePlateau.dataset.numerocase = cptCase;
 
         switch (caseLayout) {
             case 0:
@@ -71,5 +78,55 @@ function creerPlateau() {
                 break;
         }
         gameDiv.appendChild(casePlateau);
-    })
+        cptCase++;
+    });
+
+    getCaseByIndex(489).classList.add("pacman");
+}
+function getCaseByIndex(index) {
+    let caseGame = document.querySelector("[data-numerocase='" + index + "']");
+    return caseGame;
+}
+function DeplacerPacman(direction) {
+    let pacmanDiv = document.querySelector(".pacman");
+    let pacManCase = pacmanDiv.dataset.numerocase;
+    let caseDestination = null;
+    switch (direction) {
+        case "ArrowUp":
+                // Déplacer la case contenant pacman de 1 vers le haut
+                caseDestination = getCaseByIndex(parseInt(pacManCase) - sizeCaseWidth);
+        break;
+        case "ArrowRight":
+                // Déplacer la case contenant pacman de 1 vers la droite
+                caseDestination = getCaseByIndex(parseInt(pacManCase) + 1);
+        break;
+        case "ArrowLeft":
+                // Déplacer la case contenant pacman de 1 vers la  gauche
+                caseDestination = getCaseByIndex(parseInt(pacManCase) - 1);
+        break;
+        case "ArrowDown":
+                // Déplacer la case contenant pacman de 1 vers le bas
+                caseDestination = getCaseByIndex(parseInt(pacManCase) + sizeCaseWidth);
+            break;
+        default:
+            break;
+    };
+    if (caseDestination != null) {
+        if (ckeckDirection(caseDestination)) {
+            pacmanDiv.classList.remove("pacman");
+            caseDestination.classList.add("pacman");
+        }
+    }
+}
+
+//return faux si je peux pas aller la ou je veux
+//return vrai si je peux
+function ckeckDirection(caseDestination)  
+{
+    if (caseDestination.classList.contains("mur")) {
+     return false;   
+    }
+    else{
+        return true;
+    }
 }

@@ -1,3 +1,6 @@
+body {
+    background-color: #1e1e1e;
+}
 #game {
     /* widthCase * 28 */
     width: 560px;
@@ -6,6 +9,7 @@
     display: flex;
     flex-wrap: wrap;
     background-color: black;
+    margin: auto;
 }
 #game div {
     width: 20px;
@@ -27,5 +31,11 @@
     background-color: #F8AD90;
     border-radius: 50%;
     border: rgb(5, 5, 5) solid 3px;
+    box-sizing: border-box;
+}
+#game div.pacman{
+    background-color: #ffee00;
+    border-radius: 50%;
+    border: black solid 1px;
     box-sizing: border-box;
 }
